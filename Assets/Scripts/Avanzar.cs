@@ -9,16 +9,22 @@ public class Avanzar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (jugador.girosocopio.y>=0.3)
+        if (jugador.girosocopio.y >= 0.3)
         {
             transform.Translate(Vector3.back * jugador.velocidad * Time.deltaTime);
         }
+
+            if(jugador.avanzar==true)
+            {
+                transform.Translate(Vector3.back * (jugador.velocidad+10f) * Time.deltaTime);
+            }
+       
       //  transform.Translate(Vector3.back * jugador.speed * Time.deltaTime);
     }
     private void OnTriggerEnter(Collider other)

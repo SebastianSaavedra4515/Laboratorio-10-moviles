@@ -6,15 +6,19 @@ using UnityEngine.SceneManagement;
 public class GIroscopio : MonoBehaviour
 {
     [SerializeField] Text valores;
-    [SerializeField] Text valores2;
+  
     public float speed = 5;
     public Vector3 girosocopio;
     public float velocidad;
     [SerializeField] Image PrimerDaño;
     [SerializeField] Image SegundoDaño;
     [SerializeField] Image TercerDaño;
+    public float distanciaRecorrida;
      int vida = 4;
     public float score=0;
+    public bool left;
+    public bool right;
+    public bool avanzar;
     void Start()
     {
         
@@ -27,16 +31,14 @@ public class GIroscopio : MonoBehaviour
 
         tilt = Quaternion.Euler(90,0,0)*tilt;
         girosocopio = tilt;
-        valores.text = "Score:" + score;
-        valores2.text = "Vida:"+(vida);
-       
-        if (tilt.x>=0.2 && transform.rotation.z >= -0.15)
+
+        if ((tilt.x>=0.2 && transform.rotation.z >= -0.15)||right==true)
         {
             transform.Rotate(new Vector3(0f, 0f, -30f)*Time.deltaTime);
         }
         else
         {
-            if (tilt.x <= -0.2 && transform.rotation.z <= 0.15)
+            if ((tilt.x <= -0.2 && transform.rotation.z <= 0.15)|| left == true)
             {
                 transform.Rotate(new Vector3(0f, 0f, 30f) * Time.deltaTime);
                
@@ -66,6 +68,16 @@ public class GIroscopio : MonoBehaviour
                 transform.position += Vector3.right * velocidad * Time.deltaTime;
             }
         }
+        if (tilt.y >= 0.3f || avanzar == true)
+        {
+            distanciaRecorrida += Time.deltaTime;
+        }
+        
+        valores.text = "Score:" + score;
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            vida = -1;
+        }
         ComprabarVida();
         FinJuego();
     }
@@ -92,7 +104,36 @@ public class GIroscopio : MonoBehaviour
     {
         if (vida <= 0)
         {
-            SceneManager.LoadScene(0);
+            score += distanciaRecorrida;
+            Debug.Log("ENTRO");
+
+            SaveManager.SavePlayerData(this);
+            SceneManager.LoadScene("WinMenu");
         }
     }
+    public void PressLeft()
+    {
+        left = true;
+    }
+    public void PressRigth()
+    {
+        right = true;
+    }
+    public void PressAvanzar()
+    {
+        avanzar = true;
+    }
+    public void DesPressLeft()
+    {
+        left = false;
+    }
+    public void DesPressRigth()
+    {
+        right = false;
+    }
+    public void DesPressAvanzar()
+    {
+        avanzar = false;
+    }
 }
+
