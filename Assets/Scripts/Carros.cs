@@ -23,8 +23,7 @@ public class Carros : MonoBehaviour
         
         if (other.tag == "Muro")
         {
-            PosInicial.x = Random.Range(-3.8f, 3.8f);
-            transform.position = PosInicial;
+            gameObject.SetActive(false);
         }
         if (other.tag == "MainCamera")
         {
