@@ -43,13 +43,16 @@ public class ScoreManager
        
       for(int i=0;i<scores.Length-1;i++)
         {
-            for(int j=0;j<scores.Length-i-1;j++)
+            for(int j=0;j<scores.Length-i;j++)
             {
-                if (scores[j] < scores[j + 1])
+                if (j + 1 <= 2)
                 {
-                    float temporal = scores[j + 1];
-                    scores[j + 1] = scores[j];
-                    scores[j] = temporal;
+                    if (scores[j] < scores[j + 1])
+                    {
+                        float temporal = scores[j + 1];
+                        scores[j + 1] = scores[j];
+                        scores[j] = temporal;
+                    }
                 }
             }
         }
